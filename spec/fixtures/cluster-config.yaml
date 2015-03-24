@@ -1,0 +1,55 @@
+etcd: &etcd
+  discovery: https://discovery.etcd.io/xxx
+  addr: $public_ipv4:4001
+  peer-addr: $public_ipv4:7001
+
+fleet: &fleet
+  public-ip: $public_ipv4
+  metadata: region=eu-west-1
+
+update: &update
+  reboot-strategy: etcd-lock
+  group: beta
+
+units: &units
+  - name: etcd.service
+    command: reload-or-try-restart
+  - name: fleet.service
+    command: reload-or-try-restart
+
+coreos: &coreos
+  etcd:
+    <<: *etcd
+  fleet:
+    <<: *fleet
+  update:
+    <<: *update
+  units: *units
+
+ssh_authorized_keys: &keys
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzi8isXFT4oT4zfhY5K7NaETJqrfnFgS5aSN3u5v5scBozJBI09QSFQ8S85Wjz+0VM0JxU7Fcgf575nhGePcYuUixefw6JLXdHm7lXCmQ0IOjli6AebJ7H4En1wu9Qfj5BMCbzCstkEoNSsQE3gam6HHGKmC05g6WhD1QkfEx/ZpaDfHLo7xf41+TMOmeb5gyG+Bq/oDJEXK3qaSMlSrBJgmqlfgMpRRzXGAi+WFdush5hw4Zu8s48l1qRQjUeGdly6GIwi7eTC1+RzahU2/2iBwsAlEBDDcT2/SCsIJWSe+3mNbGeFdb/3jqPSJxJuOmWaXwCE/EJu/bvy5wszhyd
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBgPTcxpJwiyGsX6EXDXEpLZpPmtCL2v3d0sEZ5rL6e2tI1FO+zDI4+EYmm7HNZD+sYU1NgYoFUd6nFCZflbavLeEEPPkyB0YZa+xGpx/adZsvOyNlV7gDPBE695tfd1loKTJRa5jvNQNdOogcEbTF9VUgAp8Ign7Om5RhL99heCvyoyR1uNalw7melH09XD4e5fAEawVP0n7MTmXmaZK5E0n1WZsK5h8fcbponmUqYpAeGffeZ4hQCx4swuaipB3rwGrOt199/DoEKcCON+Qg8TfTN0n3u013sfuWlVI0CkkDd7mjolxOqHduzYS56hghlvt4UkHbunkR+ujcaZLN
+
+base: &base
+  coreos:
+    <<: *coreos
+  ssh_authorized_keys: *keys
+
+node: &node
+  <<: *base
+
+db: &db
+  <<: *base
+  coreos:
+    <<: *coreos
+    update:
+      <<: *update
+      reboot-strategy: off
+
+hosts:
+  - hostname: node.1
+    <<: *node
+  - hostname: node.2
+    <<: *node
+  - hostname: db.1
+    <<: *db

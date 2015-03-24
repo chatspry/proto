@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "proto"
+require "proto/cli"
+
+Proto::Cli.start(ARGV)
