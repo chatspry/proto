@@ -1,5 +1,8 @@
 require "protocore/version"
 require "protocore/description"
+
+require "protocore/key_store"
+
 require "yaml"
 
 module Protocore
