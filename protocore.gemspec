@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "proto/version"
-require "proto/description"
+require "protocore/version"
+require "protocore/description"
 
 Gem::Specification.new do |spec|
-  spec.name          = "proto"
-  spec.version       = Proto::VERSION
+  spec.name          = "protocore"
+  spec.version       = Protocore::VERSION
   spec.authors       = ["Philip Vieira"]
   spec.email         = ["philip@chatspry.com"]
-  spec.summary       = Proto::DESCRIPTION
+  spec.summary       = Protocore::DESCRIPTION
   spec.description   = %q{Create configuration files for your whole CoreOS cluster based on templates}
-  spec.homepage      = "https://github.com/chatspry/proto"
+  spec.homepage      = "https://github.com/chatspry/protocore"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

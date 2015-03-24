@@ -1,5 +1,5 @@
 require "rspec"
-require "proto"
+require "protocore"
 require "pry"
 
 RSpec.configure do |config|

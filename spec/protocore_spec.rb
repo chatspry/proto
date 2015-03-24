@@ -1,6 +1,6 @@
 require "pathname"
 
-RSpec.describe Proto do
+RSpec.describe Protocore do
 
   let(:fixtures_path) { Pathname.new(__FILE__).dirname.join("fixtures") }
   let(:cluster_data_file_path) { fixtures_path.join("cluster-config.yaml").to_s }
@@ -18,13 +18,13 @@ RSpec.describe Proto do
   describe ".parse" do
     subject(:parse) { described_class.parse described_class.read cluster_data_file_path }
     it "contains an array of Hosts" do
-      expect(parse).to match Array.new(3) { an_instance_of(Proto::Host) }
+      expect(parse).to match Array.new(3) { an_instance_of(Protocore::Host) }
     end
   end
 
-  describe Proto::Host do
+  describe Protocore::Host do
 
-    subject(:host) { Proto.load(cluster_data_file_path).last }
+    subject(:host) { Protocore.load(cluster_data_file_path).last }
 
     let(:cloud_config_file_path) { fixtures_path.join("db.1.cloud-config.yaml").to_s }
 

@@ -1,6 +1,6 @@
 require "thor"
 
-module Proto
+module Protocore
 
   class Cli < Thor
 
@@ -10,13 +10,13 @@ module Proto
 
       You can specify a specific path to your cluster-config yaml file:
 
-      $ proto plan --config ./my/path/to/cluster-config.yaml
+      $ protocore plan --config ./my/path/to/cluster-config.yaml
     LONGDESC
     option :config, default: "./cluster-config.yaml", aliases: ["-c"]
     def plan(hostname=nil)
       require "pathname"
       path = Pathname.new(ENV["PWD"]).join(options[:config])
-      hosts = Proto.load(path)
+      hosts = Protocore.load(path)
       hosts.select! { |host| host.name == hostname } if hostname
       hosts.each do |host|
         puts host.to_yaml + "\n"

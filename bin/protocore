@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require "protocore"
+require "protocore/cli"
+Protocore::Cli.start(ARGV)

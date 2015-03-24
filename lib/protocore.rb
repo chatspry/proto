@@ -1,8 +1,8 @@
-require "proto/version"
-require "proto/description"
+require "protocore/version"
+require "protocore/description"
 require "yaml"
 
-module Proto
+module Protocore
 
   def self.load(path)
     parse read path
