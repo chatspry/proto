@@ -1,6 +1,7 @@
 require "rspec"
 require "protocore"
 require "pry"
+require "fakefs/spec_helpers"
 
 RSpec.configure do |config|
 
@@ -27,5 +28,13 @@ RSpec.configure do |config|
   config.order = :random
 
   Kernel.srand config.seed
+
+  config.include FakeFS::SpecHelpers
+
+  def work_dir
+    @work_dir ||= Pathname( File.dirname(__FILE__) + "/../tmp/certs" ).expand_path
+    FileUtils.mkdir_p(@work_dir)
+    return @work_dir
+  end
 
 end
