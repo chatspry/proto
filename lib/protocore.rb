@@ -2,8 +2,9 @@ require "protocore/version"
 require "protocore/description"
 
 require "protocore/name_factory"
-require "protocore/key_store"
+require "protocore/cert_factory"
 require "protocore/cert_store"
+require "protocore/key_store"
 
 require "yaml"
 
