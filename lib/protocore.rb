@@ -3,6 +3,7 @@ require "protocore/description"
 
 require "protocore/name_factory"
 require "protocore/key_store"
+require "protocore/cert_store"
 
 require "yaml"
 
