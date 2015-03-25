@@ -1,6 +1,6 @@
 RSpec.describe Protocore::KeyStore do
 
-  subject { Protocore::KeyStore.new(work_dir.to_s, "test.local", bits: 1024) }
+  subject { Protocore::KeyStore.new(work_dir.to_s, "test.local") }
 
   describe "#file_path" do
     it { expect(subject.file_path.to_s).to end_with "test.local.pem" }
@@ -16,7 +16,7 @@ RSpec.describe Protocore::KeyStore do
       file_path = work_dir.join("test.local.pem")
       expect(File.exists? file_path).to eq false
 
-      priv = subject.find_or_create
+      priv = subject.find_or_create(bits: 1024)
       expect(priv).to be_kind_of OpenSSL::PKey::RSA
       expect(priv).to be_private
       expect(priv.to_text.match(/(\d*) bit/)[1]).to eq "1024"
@@ -29,7 +29,7 @@ RSpec.describe Protocore::KeyStore do
 
       File.open(path, "w") { |file| file.write key.to_pem }
 
-      priv = subject.find_or_create
+      priv = subject.find_or_create(bits: 1024)
 
       expect(priv).to be_kind_of OpenSSL::PKey::RSA
       expect(priv).to be_private
@@ -39,17 +39,17 @@ RSpec.describe Protocore::KeyStore do
     end
 
     it "handles RSA algorithm" do
-      store = described_class.new(work_dir.to_s, "test.local", algorithm: "rsa", bits: 128)
-      expect(store.find_or_create).to be_kind_of OpenSSL::PKey::RSA
+      store = described_class.new(work_dir.to_s, "test.local")
+      expect(store.find_or_create(bits: 128, algorithm: OpenSSL::PKey::RSA)).to be_kind_of OpenSSL::PKey::RSA
     end
 
     it "handles DSA algorithm" do
-      store = described_class.new(work_dir.to_s, "test.local", algorithm: "dsa", bits: 128)
-      expect(store.find_or_create).to be_kind_of OpenSSL::PKey::DSA
+      store = described_class.new(work_dir.to_s, "test.local")
+      expect(store.find_or_create(bits: 128, algorithm: OpenSSL::PKey::DSA)).to be_kind_of OpenSSL::PKey::DSA
     end
 
     it "raises an exception when there is no algorithm" do
-      expect { described_class.new(work_dir.to_s, "test.local", algorithm: "nope").find_or_create }.to raise_error(ArgumentError)
+      expect { described_class.new(work_dir.to_s, "test.local").find_or_create(algorithm: Object) }.to raise_error(ArgumentError)
     end
 
   end
