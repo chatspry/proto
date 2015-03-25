@@ -7,9 +7,10 @@ module Protocore
       @issuer = issuer
     end
 
-    def call(days: 730, version: 2)
+    def call(days: 730, version: 2, serial: 1)
       OpenSSL::X509::Certificate.new.tap do |cert|
-        cert.version = 2
+        cert.serial = serial
+        cert.version = version
         cert.subject = @details
         cert.issuer = @issuer || @details
         cert.public_key = @key.public_key
