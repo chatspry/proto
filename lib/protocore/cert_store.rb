@@ -16,7 +16,7 @@ module Protocore
   private
 
     def find
-      @key = OpenSSL::X509::Certificate.new(File.read(@file_path)) if File.exists?(@file_path)
+      @key = OpenSSL::X509::Certificate.new(File.read(@file_path.to_s)) if File.exists?(@file_path.to_s)
     end
 
     def create(cert)
