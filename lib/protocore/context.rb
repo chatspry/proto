@@ -34,6 +34,7 @@ module Protocore
       FileUtils.mkdir_p(keys_path)
       FileUtils.mkdir_p(certs_path)
       FileUtils.touch(config_file_path)
+      return self
     end
 
   end
