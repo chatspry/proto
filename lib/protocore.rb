@@ -1,6 +1,7 @@
 require "protocore/version"
 require "protocore/description"
 
+require "protocore/name_factory"
 require "protocore/key_store"
 
 require "yaml"
