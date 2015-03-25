@@ -1,6 +1,7 @@
 require "protocore/version"
 require "protocore/description"
 
+require "protocore/context"
 require "protocore/name_factory"
 require "protocore/cert_factory"
 require "protocore/cert_store"
