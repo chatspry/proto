@@ -8,6 +8,8 @@ RSpec.describe Protocore::KeyStore do
 
   describe "#find_or_create" do
 
+    include FakeFS::SpecHelpers
+
     after(:each) { FileUtils.rm_rf(work_dir.join("test.local.pem").to_s) }
 
     it "creates a new key pair" do

@@ -29,8 +29,6 @@ RSpec.configure do |config|
 
   Kernel.srand config.seed
 
-  config.include FakeFS::SpecHelpers
-
   def work_dir
     @work_dir ||= Pathname( File.dirname(__FILE__) + "/../tmp/certs" ).expand_path
     FileUtils.mkdir_p(@work_dir)
