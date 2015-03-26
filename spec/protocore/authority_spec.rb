@@ -19,6 +19,8 @@ RSpec.describe Protocore::Authority do
       expect(cert).to be_kind_of OpenSSL::X509::Certificate
       expect(cert.subject.to_s).to eq details.to_s
       expect(cert.issuer.to_s).to eq issuer.to_s
+      expect(File.open("/.protocore/certs/authorities/test.local.crt")).to exist
+      expect(File.open("/.protocore/keys/authorities/test.local.pem")).to exist
     end
   end
 
