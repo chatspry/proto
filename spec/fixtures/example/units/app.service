@@ -1,0 +1,4 @@
+[Unit]
+Name=app
+Description=An app
+ExecStart=/bin/app
