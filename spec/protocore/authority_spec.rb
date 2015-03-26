@@ -2,12 +2,14 @@ RSpec.describe Protocore::Authority do
 
   include FakeFS::SpecHelpers
 
+  let!(:_context) { Protocore::Context.new("/").manifest! }
+
   let(:key) { OpenSSL::PKey::RSA.new(512) }
 
   let(:issuer) { OpenSSL::X509::Name.parse("/C=GB/L=London/CN=test.local") }
   let(:details) { OpenSSL::X509::Name.parse("/C=GB/L=London/CN=1.test.local") }
-  let(:key_store) { Protocore::KeyStore.new(work_dir, "test.local") }
-  let(:cert_store) { Protocore::CertStore.new(work_dir, "test.local") }
+  let(:key_store) { Protocore::KeyStore.new(_context) }
+  let(:cert_store) { Protocore::CertStore.new(_context) }
 
   subject(:authority) { described_class.new("test.local", issuer, key_store: key_store, cert_store: cert_store) }
 

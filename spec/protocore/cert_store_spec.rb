@@ -1,5 +1,9 @@
 RSpec.describe Protocore::CertStore do
 
+  include FakeFS::SpecHelpers
+
+  subject!(:store) { Protocore::CertStore.new(Protocore::Context.new("/").manifest!) }
+
   let(:key) { OpenSSL::PKey::RSA.new(512) }
   let(:cert) {
     OpenSSL::X509::Certificate.new.tap do |c|
@@ -10,32 +14,27 @@ RSpec.describe Protocore::CertStore do
     end
   }
 
-  subject { Protocore::CertStore.new(work_dir.to_s, "test.local") }
-
-  describe "#file_path" do
-    it { expect(subject.file_path.to_s).to end_with "test.local.crt" }
+  describe "#path" do
+    it { expect(subject.path.to_s).to end_with "/certs" }
   end
 
   describe "#find_or_create" do
 
-    include FakeFS::SpecHelpers
-
-    after(:each) { FileUtils.rm_rf(work_dir.join("test.local.crt").to_s) }
-
     it "creates a new cert" do
-      file_path = work_dir.join("test.local.crt")
-      new_cert = subject.find_or_create { cert }
+      file_path = "/.protocore/certs/foo/test.local.crt"
+      new_cert = subject.find_or_create("foo", "test.local") { cert }
       expect(new_cert).to be_kind_of OpenSSL::X509::Certificate
+      expect(new_cert.to_pem).to eq cert.to_pem
       expect(new_cert.object_id).to eq cert.object_id
       expect(File.exists? file_path).to eq true
     end
 
     it "uses the existing cert when the file exists" do
-      file_path = work_dir.join("test.local.crt")
+      file_path = "/.protocore/certs/test.local.crt"
       File.open(file_path, "w") { |file| file.write cert.to_pem }
-
-      existing_cert = subject.find_or_create { cert }
+      existing_cert = subject.find_or_create("test.local") { cert }
       expect(existing_cert).to be_kind_of OpenSSL::X509::Certificate
+      expect(existing_cert.to_pem).to eq cert.to_pem
       expect(existing_cert.object_id).to_not eq cert.object_id
     end
 

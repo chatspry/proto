@@ -9,8 +9,8 @@ module Protocore
       @name = name
       @details = details
       @signature = signature
-      @key = key_store.find_or_create
-      @cert = cert_store.find_or_create {
+      @key = key_store.find_or_create("authorities", @name)
+      @cert = cert_store.find_or_create("authorities", @name) {
         CertFactory.new(@key, @details).call(serial: 1).tap do |cert|
           ef = OpenSSL::X509::ExtensionFactory.new
           ef.subject_certificate = cert

@@ -1,27 +1,28 @@
 module Protocore
   class CertStore
 
-    attr_reader :file_path
+    attr_reader :path
 
-    def initialize(work_dir, name)
-      @name = name
-      @work_dir = Pathname(work_dir).expand_path
-      @file_path = @work_dir.join(name + ".crt")
+    def initialize(context)
+      @path = context.certs_path
     end
 
-    def find_or_create(&blk)
-      find || create(yield)
+    def find_or_create(*namespace, &blk)
+      file_path = path.join(*namespace).to_s + ".crt"
+      find(file_path) || create(file_path, yield)
     end
 
   private
 
-    def find
-      @key = OpenSSL::X509::Certificate.new(File.read(@file_path.to_s)) if File.exists?(@file_path.to_s)
+    def find(file_path)
+      @key = OpenSSL::X509::Certificate.new(File.read(file_path.to_s)) if File.exists?(file_path.to_s)
     end
 
-    def create(cert)
-      FileUtils.mkdir_p(@work_dir) && File.open(@file_path, "w") { |f| f.write cert.to_pem }
-      cert
+    def create(file_path, cert)
+      cert.tap do |cert|
+        FileUtils.mkdir_p Pathname(file_path).dirname.to_s
+        File.open(file_path.to_s, "w") { |f| f.write cert.to_pem }
+      end
     end
 
   end
