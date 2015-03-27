@@ -3,7 +3,7 @@ require "openssl"
 module Protocore
   class NameFactory
 
-    OPTS = {
+    MAPPING = {
       "country" => ["C", OpenSSL::ASN1::PRINTABLESTRING],
       "state" => ["ST", OpenSSL::ASN1::PRINTABLESTRING],
       "city" => ["L", OpenSSL::ASN1::PRINTABLESTRING],
@@ -13,18 +13,16 @@ module Protocore
       "email" => ["emailAddress", OpenSSL::ASN1::UTF8STRING],
     }
 
-    attr_reader :options
+    attr_reader :details
 
-    def initialize(options={})
-      @options = options
+    def initialize(details={})
+      @details = details
     end
 
-    def call
-      @subject ||= OpenSSL::X509::Name.new(self.parse)
-    end
-
-    def parse
-      OPTS.map { |key, a| [a.first, options[key], a.last] if options[key] }.compact
+    def call(extra_details={})
+      all_details = details.merge(extra_details)
+      mapped_details = MAPPING.map { |key, spec| [spec.first, all_details[key], spec.last] if all_details[key] }.compact
+      OpenSSL::X509::Name.new(mapped_details)
     end
 
   end
