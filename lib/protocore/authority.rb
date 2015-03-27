@@ -26,7 +26,6 @@ module Protocore
     end
 
     def issue(key, details)
-      puts @details_factory.call(details)
       sign CertFactory.new(key, @details_factory.call(details), issuer: @details).call(serial: 2)
     end
 
