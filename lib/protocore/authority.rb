@@ -7,7 +7,8 @@ module Protocore
 
     def initialize(name, details, cert_store:, key_store:, signature: OpenSSL::Digest::SHA256)
       @name = name
-      @details = details
+      @details_factory = Protocore::DetailsFactory.new({ "common_name" => name }.merge details)
+      @details = @details_factory.call
       @signature = signature
       @key = key_store.find_or_create("authorities", @name)
       @cert = cert_store.find_or_create("authorities", @name) {
@@ -25,7 +26,8 @@ module Protocore
     end
 
     def issue(key, details)
-      sign CertFactory.new(key, details, issuer: @details).call(serial: 2)
+      puts @details_factory.call(details)
+      sign CertFactory.new(key, @details_factory.call(details), issuer: @details).call(serial: 2)
     end
 
     def sign(cert)
@@ -37,12 +39,6 @@ module Protocore
         cert.add_extension(ef.create_extension("subjectKeyIdentifier","hash",false))
         cert.sign(@key, @signature.new)
       end
-    end
-
-  private
-
-    def self_sign
-
     end
 
   end
