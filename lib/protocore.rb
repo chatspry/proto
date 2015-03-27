@@ -8,6 +8,8 @@ require "protocore/cert_store"
 require "protocore/key_store"
 require "protocore/authority"
 
+require "protocore/parsers/authorities_parser"
+
 require "yaml"
 
 module Protocore
