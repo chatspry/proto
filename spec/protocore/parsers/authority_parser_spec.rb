@@ -2,9 +2,9 @@ RSpec.describe Protocore::Parsers::AuthoritiesParser do
 
   include FakeFS::SpecHelpers
 
-  let(:_context) { Protocore::Context.new("/").manifest! }
-  let(:key_store) { Protocore::KeyStore.new(_context) }
-  let(:cert_store) { Protocore::CertStore.new(_context) }
+  let(:work_dir) { Protocore::WorkDir.new("/").manifest! }
+  let(:key_store) { Protocore::KeyStore.new(work_dir) }
+  let(:cert_store) { Protocore::CertStore.new(work_dir) }
 
   subject(:parser) { described_class.new(key_store, cert_store) }
 

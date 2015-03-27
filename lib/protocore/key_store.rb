@@ -5,8 +5,8 @@ module Protocore
 
     attr_reader :path
 
-    def initialize(context)
-      @path = context.keys_path
+    def initialize(work_dir)
+      @path = work_dir.keys_path
     end
 
     def find_or_create(*namespace, bits: 2048, algorithm: OpenSSL::PKey::RSA)

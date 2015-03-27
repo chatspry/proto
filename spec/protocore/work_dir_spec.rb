@@ -1,4 +1,4 @@
-RSpec.describe Protocore::Context do
+RSpec.describe Protocore::WorkDir do
 
   include FakeFS::SpecHelpers
 

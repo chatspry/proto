@@ -3,8 +3,8 @@ module Protocore
 
     attr_reader :path
 
-    def initialize(context)
-      @path = context.certs_path
+    def initialize(work_dir)
+      @path = work_dir.certs_path
     end
 
     def find_or_create(*namespace, &blk)

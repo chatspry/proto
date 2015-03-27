@@ -1,5 +1,5 @@
 module Protocore
-  class Context
+  class WorkDir
 
     def initialize(directory, options = {})
       @options = options
