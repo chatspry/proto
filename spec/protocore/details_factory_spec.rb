@@ -1,4 +1,4 @@
-RSpec.describe Protocore::NameFactory do
+RSpec.describe Protocore::DetailsFactory do
 
   subject { described_class.new(
     "country" => "GB",

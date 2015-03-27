@@ -1,7 +1,7 @@
 require "openssl"
 
 module Protocore
-  class NameFactory
+  class DetailsFactory
 
     MAPPING = {
       "country" => ["C", OpenSSL::ASN1::PRINTABLESTRING],
