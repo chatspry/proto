@@ -1,4 +1,4 @@
-RSpec.describe Protocore::Parsers::AuthoritiesParser do
+RSpec.describe Protocore::Extractors::AuthorityExtractor do
 
   include FakeFS::SpecHelpers
 

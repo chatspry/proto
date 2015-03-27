@@ -1,7 +1,6 @@
 module Protocore
-  module Parsers
-
-    class AuthoritiesParser
+  module Extractors
+    class AuthorityExtractor
 
       def initialize(key_store, cert_store)
         @key_store = key_store
@@ -49,6 +48,5 @@ module Protocore
       end
 
     end
-
   end
 end
