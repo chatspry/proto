@@ -4,10 +4,19 @@ authorities:
     algorithm: RSA
     signature: SHA256
     bits: 512
+    days: 3650
   CA_DSA:
     algorithm: DSA
     signature: SHA512
     bits: 1024
+    days: 365
+
+users:
+  tester:
+    source: users/tester.yaml
+  zeeraw:
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBgPTcxpJwiyGsX6EXDXEpLZpPmtCL2v3d0sEZ5rL6e2tI1FO+zDI4+EYmm7HNZD+sYU1NgYoFUd6nFCZflbavLeEEPPkyB0YZa+xGpx/adZsvOyNlV7gDPBE695tfd1loKTJRa5jvNQNdOogcEbTF9VUgAp8Ign7Om5RhL99heCvyoyR1uNalw7melH09XD4e5fAEawVP0n7MTmXmaZK5E0n1WZsK5h8fcbponmUqYpAeGffeZ4hQCx4swuaipB3rwGrOt199/DoEKcCON+Qg8TfTN0n3u013sfuWlVI0CkkDd7mjolxOqHduzYS56hghlvt4UkHbunkR+ujcaZLN
 
 templates:
   default:
@@ -20,6 +29,7 @@ templates:
       - authority: CA_RSA
         signature: SHA512
         bits: 1024
+        days: 3650
     files:
       - path: /etc/env/app.env
         permissions: 0644
@@ -39,13 +49,6 @@ templates:
         content: |
           [Unit]
           Description=This is inline config
-
-users:
-  tester:
-    source: users/tester.yaml
-  zeeraw:
-    ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBgPTcxpJwiyGsX6EXDXEpLZpPmtCL2v3d0sEZ5rL6e2tI1FO+zDI4+EYmm7HNZD+sYU1NgYoFUd6nFCZflbavLeEEPPkyB0YZa+xGpx/adZsvOyNlV7gDPBE695tfd1loKTJRa5jvNQNdOogcEbTF9VUgAp8Ign7Om5RhL99heCvyoyR1uNalw7melH09XD4e5fAEawVP0n7MTmXmaZK5E0n1WZsK5h8fcbponmUqYpAeGffeZ4hQCx4swuaipB3rwGrOt199/DoEKcCON+Qg8TfTN0n3u013sfuWlVI0CkkDd7mjolxOqHduzYS56hghlvt4UkHbunkR+ujcaZLN
 
 machines:
   - host: 10.0.0.1
