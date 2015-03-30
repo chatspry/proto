@@ -7,9 +7,11 @@ module Protocore
         @cert_store = cert_store
       end
 
-      def call(cluster_config)
-        cluster_config.fetch("authorities", {}).inject({}) do |authorities, (name, options)|
-          authorities.tap { |a| a[name] = build_authority(name, options) }
+      def call(config)
+        config.tap do |config|
+          config["authorities"] = config.fetch("authorities", {}).inject({}) do |authorities, (name, options)|
+            authorities.tap { |a| a[name] = build_authority(name, options) }
+          end
         end
       end
 
