@@ -7,7 +7,7 @@ authorities:
     days: 3650
   CA_DSA:
     algorithm: DSA
-    signature: SHA512
+    signature: SHA256
     bits: 1024
     days: 365
 
