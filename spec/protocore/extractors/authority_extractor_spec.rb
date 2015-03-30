@@ -4,7 +4,7 @@ RSpec.describe Protocore::Extractors::AuthorityExtractor do
   let(:key_store) { Protocore::KeyStore.new(work_dir) }
   let(:cert_store) { Protocore::CertStore.new(work_dir) }
 
-  subject(:extractor) { described_class.new(key_store, cert_store) }
+  subject(:extractor) { described_class.new(work_dir, key_store, cert_store) }
 
   let(:cluster_config) { {
     "authorities" => {

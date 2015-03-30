@@ -16,11 +16,14 @@ module Protocore
   private
 
     def extractors
-      [ Protocore::Extractors::AuthorityExtractor ]
+      [
+        Protocore::Extractors::AuthorityExtractor,
+        Protocore::Extractors::UserExtractor
+      ]
     end
 
     def extract
-      extractors.inject(load_all_config) { |c, e| e.new(@key_store, @cert_store).call(c) }
+      extractors.inject(load_all_config) { |c, e| e.new(@work_dir, @key_store, @cert_store).call(c) }
     end
 
     def load_all_config

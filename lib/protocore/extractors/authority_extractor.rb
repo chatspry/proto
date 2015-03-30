@@ -2,7 +2,7 @@ module Protocore
   module Extractors
     class AuthorityExtractor
 
-      def initialize(key_store, cert_store)
+      def initialize(_, key_store, cert_store)
         @key_store = key_store
         @cert_store = cert_store
       end

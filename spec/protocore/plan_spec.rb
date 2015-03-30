@@ -12,6 +12,10 @@ RSpec.describe Protocore::Plan do
         "CA_RSA" => an_instance_of(Protocore::Authority),
         "CA_DSA" => an_instance_of(Protocore::Authority),
       })
+      expect(config["users"]).to match a_hash_including({
+        "zeeraw" => an_instance_of(Hash),
+        "tester" => an_instance_of(Hash),
+      })
     end
   end
 
