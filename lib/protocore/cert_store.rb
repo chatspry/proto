@@ -1,9 +1,12 @@
+require "protocore/engines/file_engine"
+
 module Protocore
   class CertStore
 
-    attr_reader :path
+    attr_reader :path, :engine
 
     def initialize(work_dir)
+      @engine = Protocore::Engines::FileEngine.new
       @path = work_dir.certs_path
     end
 
@@ -12,17 +15,12 @@ module Protocore
       find(file_path) || create(file_path, yield)
     end
 
-  private
-
     def find(file_path)
-      @key = OpenSSL::X509::Certificate.new(File.read(file_path.to_s)) if File.exists?(file_path.to_s)
+      engine.get(file_path) { |pem| OpenSSL::X509::Certificate.new(pem) }
     end
 
     def create(file_path, cert)
-      cert.tap do |cert|
-        FileUtils.mkdir_p Pathname(file_path).dirname.to_s
-        File.open(file_path.to_s, "w") { |f| f.write cert.to_pem }
-      end
+      cert.tap { |cert| engine.set(file_path, cert.to_pem) }
     end
 
   end

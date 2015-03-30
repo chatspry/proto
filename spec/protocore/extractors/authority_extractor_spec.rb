@@ -31,8 +31,6 @@ RSpec.describe Protocore::Extractors::AuthorityExtractor do
       expect(authority).to be_kind_of Protocore::Authority
       expect(authority.signature).to eq OpenSSL::Digest::SHA512
       expect(authority.details.to_s).to eq "/C=AU/L=Melbourne/O=Test Ltd./CN=CA_RSA/emailAddress=admin@example.com"
-      expect(File.exist?("/.protocore/certs/authorities/CA_RSA.crt")).to eq true
-      expect(File.exist?("/.protocore/keys/authorities/CA_RSA.pem")).to eq true
     end
 
   end

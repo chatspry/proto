@@ -26,16 +26,6 @@ RSpec.describe Protocore::CertStore do
       expect(new_cert).to be_kind_of OpenSSL::X509::Certificate
       expect(new_cert.to_pem).to eq cert.to_pem
       expect(new_cert.object_id).to eq cert.object_id
-      expect(File.exists? file_path).to eq true
-    end
-
-    it "uses the existing cert when the file exists" do
-      file_path = "/.protocore/certs/test.local.crt"
-      File.open(file_path, "w") { |file| file.write cert.to_pem }
-      existing_cert = subject.find_or_create("test.local") { cert }
-      expect(existing_cert).to be_kind_of OpenSSL::X509::Certificate
-      expect(existing_cert.to_pem).to eq cert.to_pem
-      expect(existing_cert.object_id).to_not eq cert.object_id
     end
 
   end

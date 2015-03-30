@@ -1,11 +1,12 @@
-require "openssl"
+require "protocore/engines/file_engine"
 
 module Protocore
   class KeyStore
 
-    attr_reader :path
+    attr_reader :path, :engine
 
     def initialize(work_dir)
+      @engine = Protocore::Engines::FileEngine.new
       @path = work_dir.keys_path
     end
 
@@ -14,17 +15,12 @@ module Protocore
       find(file_path, algorithm) || create(file_path, bits, algorithm)
     end
 
-  private
-
     def find(file_path, algorithm)
-      key = algorithm.new(File.read(file_path)) if File.exists?(file_path)
+      engine.get(file_path) { |pem| algorithm.new(pem) }
     end
 
     def create(file_path, bits, algorithm)
-      algorithm.new(bits).tap do |key|
-        FileUtils.mkdir_p Pathname(file_path).dirname
-        File.open(file_path, "w") { |f| f.write key.to_pem }
-      end
+      algorithm.new(bits).tap { |key| engine.set(file_path, key.to_pem) }
     end
 
   end
