@@ -10,6 +10,8 @@ require "protocore/authority"
 
 require "protocore/extractors"
 
+require "protocore/plan"
+
 require "yaml"
 
 module Protocore
