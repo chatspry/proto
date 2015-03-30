@@ -1,8 +1,6 @@
 RSpec.describe Protocore::Extractors::AuthorityExtractor do
 
-  include FakeFS::SpecHelpers
-
-  let(:work_dir) { Protocore::WorkDir.new("/").manifest! }
+  let(:work_dir) { Protocore::WorkDir.new("/") }
   let(:key_store) { Protocore::KeyStore.new(work_dir) }
   let(:cert_store) { Protocore::CertStore.new(work_dir) }
 

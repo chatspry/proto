@@ -1,8 +1,6 @@
 RSpec.describe Protocore::CertStore do
 
-  include FakeFS::SpecHelpers
-
-  subject!(:store) { Protocore::CertStore.new(Protocore::WorkDir.new("/").manifest!) }
+  subject!(:store) { Protocore::CertStore.new(Protocore::WorkDir.new("/")) }
 
   let(:key) { OpenSSL::PKey::RSA.new(512) }
   let(:cert) {

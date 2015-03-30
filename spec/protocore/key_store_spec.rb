@@ -1,8 +1,6 @@
 RSpec.describe Protocore::KeyStore do
 
-  include FakeFS::SpecHelpers
-
-  subject!(:store) { Protocore::KeyStore.new(Protocore::WorkDir.new("/").manifest!) }
+  subject!(:store) { Protocore::KeyStore.new(Protocore::WorkDir.new("/")) }
 
   describe "#path" do
     it { expect(store.path.to_s).to end_with "/keys" }

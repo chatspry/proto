@@ -1,7 +1,5 @@
 RSpec.describe Protocore::WorkDir do
 
-  include FakeFS::SpecHelpers
-
   subject { described_class.new("/", user: "tester") }
 
   describe "#config_file_path" do
@@ -29,6 +27,7 @@ RSpec.describe Protocore::WorkDir do
   end
 
   describe "#manifest!" do
+    include FakeFS::SpecHelpers
     it "it creates the all protocore state subdirectories" do
       expect( Dir.exist? subject.state_path ).to eq false
       subject.manifest!
