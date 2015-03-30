@@ -9,6 +9,7 @@ require "protocore/key_store"
 require "protocore/authority"
 
 require "protocore/planners/user_planner"
+require "protocore/planners/template_planner"
 
 require "protocore/builders/signature_builder"
 require "protocore/builders/algorithm_builder"

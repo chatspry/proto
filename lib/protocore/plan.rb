@@ -15,7 +15,8 @@ module Protocore
 
     def planners
       [
-        Protocore::Planners::UserPlanner
+        Protocore::Planners::UserPlanner,
+        Protocore::Planners::TemplatePlanner
       ]
     end
 
