@@ -1,29 +1,26 @@
 module Protocore
   class Plan
 
-    attr_reader :work_dir, :key_store, :cert_store
+    attr_reader :work_dir
 
     def initialize(work_dir)
       @work_dir = work_dir
-      @key_store = Protocore::KeyStore.new(work_dir)
-      @cert_store = Protocore::CertStore.new(work_dir)
     end
 
     def config
-      @config ||= extract
+      @config ||= construct
     end
 
   private
 
-    def extractors
+    def planners
       [
-        Protocore::Extractors::AuthorityExtractor,
-        Protocore::Extractors::UserExtractor
+        Protocore::Planners::UserPlanner
       ]
     end
 
-    def extract
-      extractors.inject(load_all_config) { |c, e| e.new(@work_dir, @key_store, @cert_store).call(c) }
+    def construct
+      planners.inject(load_all_config) { |c, e| e.new(@work_dir).call(c) }
     end
 
     def load_all_config
