@@ -6,10 +6,10 @@ module Protocore
         @work_dir = work_dir
       end
 
-      def call(config)
-        config.tap do |config|
-          config["users"] = config.fetch("users", {}).inject({}) do |users, (name, options)|
-            users.tap { |a| a[name] = plan_user(name, options) }
+      def call(config, state)
+        state.dup.tap do |state|
+          state["users"] = config.fetch("users", {}).inject({}) do |users, (name, user)|
+            users.tap { |hash| hash[name] = plan_user(name, user) }
           end
         end
       end
