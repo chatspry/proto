@@ -7,7 +7,7 @@ module Protocore
       end
 
       def call(config, state)
-        state.tap do |state|
+        state.dup.tap do |state|
           state["machines"] = config.fetch("machines", {}).inject({}) do |machines, (name, machine)|
             machines.tap do |hash|
               hash[name] = plan_machine(state, machine)
