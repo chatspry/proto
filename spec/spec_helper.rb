@@ -2,6 +2,7 @@ require "rspec"
 require "protocore"
 require "pry"
 require "fakefs/spec_helpers"
+require "timecop"
 
 RSpec.configure do |config|
 
