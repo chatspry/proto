@@ -51,7 +51,8 @@ templates:
           Description=This is inline config
 
 machines:
-  - host: 10.0.0.1
+  app.1:
+    host: 10.0.0.1
     template: default
     common_names:
       - 10.0.0.1
@@ -59,10 +60,11 @@ machines:
       - example.com
     users:
       - zeeraw
-    config:
+    cloud-config:
       hostname: app.1.local
 
-  - host: 10.0.0.2
+  app.2:
+    host: 10.0.0.2
     template: default
     common_names:
       - 10.0.0.2
@@ -70,6 +72,6 @@ machines:
       - example.com
     trust:
       - CA_DSA
-    config:
+    cloud-config:
       hostname: app.2.local
 
