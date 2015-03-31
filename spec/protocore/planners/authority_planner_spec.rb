@@ -1,4 +1,4 @@
-RSpec.fdescribe Protocore::Planners::AuthorityPlanner do
+RSpec.describe Protocore::Planners::AuthorityPlanner do
 
   let(:work_dir) { Protocore::WorkDir.new("/") }
 
