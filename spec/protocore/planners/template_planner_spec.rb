@@ -6,6 +6,7 @@ RSpec.describe Protocore::Planners::TemplatePlanner do
 
   subject(:planner) { described_class.new(work_dir) }
 
+  let(:cluster_state) { { "authorities" => {} } }
   let(:cluster_config) { {
     "templates" => {
       "default" => {
@@ -58,10 +59,10 @@ RSpec.describe Protocore::Planners::TemplatePlanner do
   describe "#call" do
     it "plans the template information" do
       write_source_file("default", default_template)
-      config = planner.call(cluster_config)
-      expect(config).to match a_hash_including("templates" => { "default" => an_instance_of(Hash) })
+      state = planner.call(cluster_config, cluster_state)
+      expect(state).to match a_hash_including("authorities", "templates" => { "default" => an_instance_of(Hash) })
 
-      template = config["templates"]["default"]
+      template = state["templates"]["default"]
       expect(template).to_not match a_hash_including("source")
       expect(template).to match a_hash_including("certs", "trust", "users", "files", "units")
       expect(template["certs"]).to match a_hash_including(

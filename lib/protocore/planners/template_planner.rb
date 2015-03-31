@@ -6,22 +6,22 @@ module Protocore
         @work_dir = work_dir
       end
 
-      def call(config)
-        config.tap do |config|
-          config["templates"] = config.fetch("templates", {}).inject({}) do |users, (name, options)|
-            users.tap { |a| a[name] = plan_template(name, options) }
+      def call(config, state)
+        state.dup.tap do |state|
+          state["templates"] = config.fetch("templates", {}).inject({}) do |users, (name, user)|
+            users.tap { |a| a[name] = plan_template(name, user) }
           end
         end
       end
 
     private
 
-      def plan_template(name, options)
-        options.tap do |options|
-          if file_path = options.delete("source")
+      def plan_template(name, user)
+        user.tap do |user|
+          if file_path = user.delete("source")
             source = load_source(file_path)
             %w(users trust certs files units).each do |f|
-              options[f] = merge_field(f, source, options)
+              user[f] = merge_field(f, source, user)
             end
           end
         end
@@ -32,8 +32,8 @@ module Protocore
         YAML.load File.read path if File.exists? path
       end
 
-      def merge_field(name, source, options, default = [])
-        [source, options].map { |o| o.fetch(name, default) }.inject(&:+).uniq
+      def merge_field(name, source, user, default = [])
+        [source, user].map { |o| o.fetch(name, default) }.inject(&:+).uniq
       end
 
     end
